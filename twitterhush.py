@@ -1,4 +1,4 @@
-#This is to be the main framework for the TwitterHush script/bot.
+#This is to be the main framework for the TwitterHush script/bot.  Functions will likely be called from another file entirely.
 
 #You will need to install the following packages if they are not already installed.
 import Tweepy
@@ -10,5 +10,3 @@ auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth)
-
-#Testing.  Just want to make sure I understand how github works. 
