@@ -1,18 +1,19 @@
-from __future__ import unicode_literals
+#Update the credentials_template.py file.  First, rename it to just credentials.py.  Then input your Twitter API keys for each variable.
+#Also you will need to install the Tweepy package in the cmd/terminal with "pip install tweepy"
 
-import sys, logging, tweepy
+from __future__ import unicode_literals
+import logging, tweepy
 
 from credentials import * #imports the variabls consumer_key, consumer_secret, access_token & access_token_secret.
-logging.warning("Assembling keywords for keyword variable...")
+print("Assembling keywords for keyword variable...")
 
 with open('keywords.txt') as f:
     keywords = [line.rstrip() for line in f]
-logging.warning(keywords)
+print(keywords)
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
-
 
 
 class MyStreamListener(tweepy.StreamListener):
@@ -22,8 +23,16 @@ class MyStreamListener(tweepy.StreamListener):
             #returning False in on_error disconnects the stream
             return False
     def on_status(self, status):
-        print(status.user.screen_name)
-        print(status.text)
+        if not status.truncated:
+            text = status.text
+            print('@'+status.user.screen_name+'\n')
+            print(text+'\n')
+            print('twitter.com/anyuser/status/'+status.id_str)
+        else:
+            text = status.extended_tweet['full_text']
+            print('@'+status.user.screen_name+'\n')
+            print(text+'\n')
+            print('twitter.com/anyuser/status/'+status.id_str)
         print("--------------------------------------")
 
 myStreamListener = MyStreamListener()
